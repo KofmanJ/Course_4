@@ -11,6 +11,10 @@ class Saver(ABC):
         pass
 
     @abstractmethod
+    def read_file(self):
+        pass
+
+    @abstractmethod
     def read_vacancies(self):
         pass
 
@@ -21,11 +25,13 @@ class Saver(ABC):
 
 class JSONSaver(Vacancies, Saver):
     """Класс для обработки списка вакансий в JSON формате"""
+    FILE_PATH = 'vacancies.json'
 
     def save_vacancies(self):
         """
         Метод для сохранения вакансий в JSON
         """
+        user_title = input("Введите название файла для сохранения информации о вакансиях: ")
         with open('vacancies.json', 'w', encoding='utf-8') as fh:
             json.dump(self.to_list_dict(), fh, indent=4, ensure_ascii=False)
 
@@ -33,6 +39,7 @@ class JSONSaver(Vacancies, Saver):
         """
         Метод для считывания вакансий из JSON
         """
+        user_title = input("Введите название файла для прочтения информации о вакансиях: ")
         with open('vacancies.json', 'r', encoding='utf-8') as file:
             self.data = json.load(file)
             return self.data
